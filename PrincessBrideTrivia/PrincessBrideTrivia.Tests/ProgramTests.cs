@@ -86,5 +86,17 @@ namespace PrincessBrideTrivia.Tests
                 File.AppendAllLines(filePath, lines);
             }
         }
+
+        [TestMethod]
+        private void LoadQuestions_CheckIfNotNull()
+        {
+            string fPath = Program.GetFilePath();
+            Question[] q = Program.LoadQuestions(fPath);
+
+            for(int x = 0; x< q.Length; x++)
+            {
+                Assert.IsNotNull(q[x]);
+            }
+        }
     }
 }

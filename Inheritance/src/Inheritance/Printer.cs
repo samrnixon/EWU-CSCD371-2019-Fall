@@ -9,11 +9,10 @@ namespace Inheritance
     {
         public static void Main()
         {
-            using (var sw = new StreamWriter(Console.OpenStandardOutput()))
-            {
-                Printer.Print(new Food { Brand = "Frosted Mini Wheats", Upc = "123456789" }, sw);
-                sw.Flush();
-            }
+            using var sw = new StreamWriter(Console.OpenStandardOutput());
+            Printer.Print(new Food { Brand = "Frosted Mini Wheats", Upc = "123456789" }, sw);
+            Printer.Print(new Television { Manufacturer = "TCL", Size = "55" }, sw);
+            sw.Flush();
         }
     }
     public static class Printer

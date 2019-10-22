@@ -6,26 +6,12 @@ namespace Inheritance
 {
     public static class ActorExtensions
     {
-        public static string Speak(this Actor actor)
-        {
-            switch(actor)
+        public static string Speak(this Actor actor) =>
+            actor switch
             {
-                case Sheldon sheldon:
-                    return sheldon.Speak();
-                case Penny penny:
-                    return penny.Speak();
-                case Raj raj:
-                    if(raj.WomenAreAround is true)
-                    {
-                        return raj.Mumble();
-                    }
-                    else
-                    {
-                        return raj.Speak();
-                    }
-                default:
-                    throw new ArgumentNullException("No correct actor");
-            }
-        }
+                Sheldon sheldon => sheldon.Speak(),
+                Penny penny => penny.Speak(),
+                Raj raj => (raj.WomenAreAround ? raj.Mumble() : raj.Speak())
+            };
     }
 }

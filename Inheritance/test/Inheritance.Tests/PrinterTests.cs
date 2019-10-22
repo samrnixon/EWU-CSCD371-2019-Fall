@@ -37,6 +37,10 @@ namespace Inheritance.Tests
 
         public override string PrintInfo()
         {
+            if(Name is null)
+            {
+                throw new ArgumentNullException("Name cannot be null");
+            }
             return Name;
         }
     }

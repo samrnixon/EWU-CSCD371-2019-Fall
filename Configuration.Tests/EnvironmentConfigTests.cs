@@ -9,32 +9,50 @@ namespace Configuration.Tests
     public class EnvironmentConfigTests
     {
         [TestMethod]
-        public void GetConfigValue_ValueSentIsNullReturnTrue()
+        public void GetConfigValue_ValueSentIsNull_ReturnsTrue()
         {
-            var environmentConfig = new EnvironmentConfig();
+            EnvironmentConfig environmentConfig = new EnvironmentConfig();
             string name = "PATH";
-            string value = null;
-            bool testBool = environmentConfig.GetConfigValue(name, value);
+            string? value = null;
+            bool testBool = environmentConfig.GetConfigValue(name, out value);
             Assert.IsTrue(testBool);
-        }
-        [TestMethod]
-        public void GetConfigValue_NameSentisNullReturnFalse()
-        {
-            var environmentConfig = new EnvironmentConfig();
-            string name = null;
-            string value = "VALUE";
-            bool testBool = environmentConfig.GetConfigValue(name, value);
-            Assert.IsFalse(testBool);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetConfigValue_NameIsNull_ReturnsFalse()
+        {
+            EnvironmentConfig environmentConfig = new EnvironmentConfig();
+            environmentConfig.GetConfigValue(null!, out string? value);
+        }
+
+        [TestMethod]
+        public void GetConfigValue_ValidEntries_ReturnsTrue()
+        {
+            EnvironmentConfig environmentConfig = new EnvironmentConfig();
+            Environment.SetEnvironmentVariable("NAME", "VALUE");
+            bool testBool = environmentConfig.GetConfigValue("NAME", out string? value);
+            Assert.IsTrue(testBool);
+        }
+
+/*        [TestMethod]
+        public void GetConfigValue_NameSentisNullReturnFalse()
+        {
+            EnvironmentConfig environmentConfig = new EnvironmentConfig();
+            string? name = null;
+            string value = "VALUE";
+            bool testBool = environmentConfig.GetConfigValue(name, out value);
+            Assert.IsFalse(testBool);
+        }*/
+
+/*        [TestMethod]
         public void SetConfigValue_AllNormalReturnsTrue()
         {
-            var environmentConfig = new EnvironmentConfig();
+            EnvironmentConfig environmentConfig = new EnvironmentConfig();
             string name = "NAME";
             string value = "VALUE";
             bool testBool = environmentConfig.SetConfigValue(name, value);
             Assert.IsTrue(testBool);
-        }
+        }*/
     }
 }

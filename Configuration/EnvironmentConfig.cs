@@ -11,29 +11,40 @@ namespace Configuration
         {
             nameList = new List<string>();
         }
-        public bool GetConfigValue(string name, string? value)
+
+        public bool GetConfigValue(string name, out string? value)
         {
-            if (name is null) { return false; }
-            value = Environment.GetEnvironmentVariable(name);
-            if(value is null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            value = Environment.GetEnvironmentVariable(name) ?? throw new ArgumentNullException(name);
+            return true;
         }
 
         public bool SetConfigValue(string name, string? value)
         {
-            if (value is null || name is null)
+            if (Validator(name, value))
             {
                 return false;
             }
+
             nameList.Add(name);
             Environment.SetEnvironmentVariable(name, value);
             return true;
+        }
+
+        public List<string> GetConfigList()
+        {
+            return this.nameList;
+        }
+
+        private bool Validator(string name, string? value)
+        {
+            if (value is null || name is null || name.Contains(" ") || name.Length < 1 || name.Contains("="))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }

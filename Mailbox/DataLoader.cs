@@ -15,7 +15,7 @@ namespace Mailbox
 
         public void Save(List<Mailbox> mailboxes)
         {
-            
+
         }
     }
 }

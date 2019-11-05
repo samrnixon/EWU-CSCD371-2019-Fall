@@ -8,7 +8,6 @@ namespace Mailbox.Tests
     [TestClass]
     public class MailboxTests
     {
-
         [TestMethod]
         public void Mailbox_JustTestingToString()
         {

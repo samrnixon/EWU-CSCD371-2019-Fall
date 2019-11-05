@@ -28,7 +28,7 @@ namespace Mailbox
             adjacentPeople = new HashSet<Person>();
             bool isOccupied = false;
 
-            foreach(Mailbox mailbox in this)
+            foreach (Mailbox mailbox in this)
             {
                 //current
                 if (mailbox.Location == (x, y))

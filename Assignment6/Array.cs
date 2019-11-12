@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assignment6
 {
@@ -8,11 +9,11 @@ namespace Assignment6
     {
         public int Capacity { get; }
 
+        private ICollection<T> _Array;
+
         public int Count => _Array.Count;
 
-        public bool IsReadOnly => false;
-
-        private ICollection<T> _Array;
+        public bool IsReadOnly => true; //I want to make sure it cannot be written to from someone else. Making it read only for security
 
         public Array(int capacity)
         {
@@ -25,11 +26,21 @@ namespace Assignment6
             _Array = new List<T>(capacity);
         }
 
+        public T this[int i]
+        {
+            get => _Array.ElementAt(i);
+            //Do I need a set in this case?
+        }
+
         public void Add(T item)
         {
             if(item is null)
             {
                 throw new ArgumentNullException(nameof(item));
+            }
+            if(Count == Capacity)
+            {
+                throw new ArgumentOutOfRangeException(nameof(item));
             }
 
             _Array.Add(item);
@@ -42,14 +53,15 @@ namespace Assignment6
 
         public bool Contains(T item)
         {
-            if(_Array.Contains(item))
+            if(item is null)
             {
-                return _Array.Contains(item);
+                throw new ArgumentNullException(nameof(item));
             }
-            else
+            if (!(_Array.Contains(item)))
             {
-                throw new ArgumentException("Array does not contain this item.",nameof(item));
+                throw new ArgumentException("Item does not exist in Array");
             }
+            return _Array.Contains(item);
         }
 
         public void CopyTo(T[] array, int arrayIndex)

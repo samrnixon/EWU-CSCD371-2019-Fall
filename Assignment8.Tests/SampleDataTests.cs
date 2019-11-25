@@ -1,5 +1,6 @@
 using Assignment;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -40,7 +41,6 @@ namespace Assignment8.Tests
         [TestMethod]
         public void GetUniqueSortedListOfStatesGivenCsvRows_ReturnsSortedList_Success()
         {
-            
             ISampleData sampleData = new SampleData();
             IEnumerable<string> data = sampleData.GetUniqueSortedListOfStatesGivenCsvRows().ToList();
              
@@ -73,7 +73,6 @@ namespace Assignment8.Tests
         {
             SampleData sampleData = new SampleData();
             string sampleString = sampleData.GetAggregateSortedListOfStatesUsingCsvRows();
-
             string expected = "AL,AZ,CA,DC,FL,GA,IN,KS,LA,MD,MN,MO,MT,NC,NE,NH,NV,NY,OR,PA,SC,TN,TX,UT,VA,WA,WV";
 
             Assert.AreEqual<string>(sampleString, expected);
@@ -88,19 +87,80 @@ namespace Assignment8.Tests
             Assert.IsTrue(people.Any());
         }
 
-/*        [TestMethod]
-        public void SampleDataPeople_ChecksListToSeeIfAPersonExists()
+        /*        [TestMethod]
+                public void SampleDataPeople_ChecksListToSeeIfAPersonExists()
+                {
+                    SampleData sampleData = new SampleData();
+                    SampleData sampleData1 = new SampleData();
+
+                    var sampleList = sampleData.CsvRows;
+                    var sampleList1 = sampleData1.People;
+
+        *//*            IAddress address = new Address("7884 Corry Way","Helena","MT","70577");
+                    IPerson person = new Person("Priscilla","Jenyns",address,"pjenyns0@state.gov");*//*
+
+                    //Assert.IsTrue(Enumerable.Contains(sampleList1.));
+                }*/
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SampleData_FilterUsingEmailAddress_NullFilter_Fails()
         {
             SampleData sampleData = new SampleData();
-            SampleData sampleData1 = new SampleData();
 
-            var sampleList = sampleData.CsvRows;
-            var sampleList1 = sampleData1.People;
+            IEnumerable<(string, string)> returnedList =
+                sampleData.FilterByEmailAddress(null!);
+        }
 
-*//*            IAddress address = new Address("7884 Corry Way","Helena","MT","70577");
-            IPerson person = new Person("Priscilla","Jenyns",address,"pjenyns0@state.gov");*//*
+        [TestMethod]
+        public void SampleData_FilterUsingEmailAddress_ReturnsOnePersonList_Success()
+        {
+            SampleData sampleData = new SampleData();
 
-            //Assert.IsTrue(Enumerable.Contains(sampleList1.));
-        }*/
+            List<(string, string)> expected = new List<(string, string)>()
+            {
+                ("Chelsy","Buckle")
+            };
+
+            IEnumerable<(string, string)> returnedList =
+                sampleData.FilterByEmailAddress(item => item.EndsWith("tiny.cc", StringComparison.Ordinal));
+
+            Assert.IsTrue(returnedList.SequenceEqual(expected));
+        }
+
+        [TestMethod]
+        public void SampleData_FilterUsingEmailAddress_ReturnsMultiplePersonList_Success()
+        {
+            SampleData sampleData = new SampleData();
+
+            List<(string, string)> expected = new List<(string, string)>()
+            {
+                ("Sancho","Mahony"),
+                ("Fayette","Dougherty")
+            };
+
+            IEnumerable<(string, string)> returnedList =
+                sampleData.FilterByEmailAddress(item => item.EndsWith("stanford.edu", StringComparison.Ordinal));
+
+            Assert.IsTrue(returnedList.SequenceEqual(expected));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SampleData_GetAggregateListOfStatesGivenPeople_PassedInNull_Fail()
+        {
+            SampleData sampleData = new SampleData();
+            string sampleString = sampleData.GetAggregateListOfStatesGivenPeopleCollection(null!);
+        }
+
+        [TestMethod]
+        public void SampleDataGetAggregateListOfStatesGivenPeople_PassedInGoodPeopleList_Success()
+        {
+            SampleData sampleData = new SampleData();
+            string sampleString = sampleData.GetAggregateListOfStatesGivenPeopleCollection(sampleData.People);
+            string expected = sampleData.GetAggregateSortedListOfStatesUsingCsvRows();
+
+            Assert.AreEqual(sampleString, expected);
+        }
     }
 }

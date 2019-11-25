@@ -13,7 +13,7 @@ namespace Assignment
         }
 
         // 1.
-        public IEnumerable<string> CsvRows => File.ReadAllLines("C:\\Users\\Sam\\source\\repos\\EWU-CSCD371-2019-Fall2\\Assignment\\People.csv").Skip(1);
+        public IEnumerable<string> CsvRows => File.ReadAllLines("People.csv").Skip(1);
 
         // 2.
         public IEnumerable<string> GetUniqueSortedListOfStatesGivenCsvRows()
@@ -40,10 +40,35 @@ namespace Assignment
         public IEnumerable<IPerson> People => MakePeople();
 
         // 5.
-        public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress(Predicate<string> filter) => throw new NotImplementedException();
+        public IEnumerable<(string FirstName, string LastName)> FilterByEmailAddress(Predicate<string> filter)
+        {
+            if(filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            List<(string FirstName, string LastName)> firstAndLastNames = People
+                .Where(email => filter(email.EmailAddress))
+                .Select(email => (email.FirstName, email.LastName))
+                .ToList();
+
+            return firstAndLastNames;
+        }
 
         // 6.
-        public string GetAggregateListOfStatesGivenPeopleCollection(IEnumerable<IPerson> people) => throw new NotImplementedException();
+        public string GetAggregateListOfStatesGivenPeopleCollection(IEnumerable<IPerson> people)
+        {
+            if (people is null)
+            {
+                throw new ArgumentNullException(nameof(people));
+            }
+
+            string returnedStates = people.Select(item => item.Address.State)
+                .Distinct()
+                .Aggregate((state1, state2) => $"{state1},{state2}");
+                
+            return returnedStates;
+        }
 
         public IEnumerable<IPerson> MakePeople()
         {

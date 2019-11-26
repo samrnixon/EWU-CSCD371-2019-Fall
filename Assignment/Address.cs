@@ -16,5 +16,11 @@ namespace Assignment
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
+
+        //for testing purposes.
+        public override string ToString()
+        {
+            return ($"{StreetAddress}, {City}, {State}, {Zip}");
+        }
     }
 }

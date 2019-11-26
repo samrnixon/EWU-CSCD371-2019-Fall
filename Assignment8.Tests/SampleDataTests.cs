@@ -65,7 +65,6 @@ namespace Assignment8.Tests
 
             Assert.AreEqual(sampleList.Count, expected.Count);
             Assert.IsTrue(Enumerable.SequenceEqual(sampleList,expected));
-
         }
 
         [TestMethod]
@@ -87,20 +86,20 @@ namespace Assignment8.Tests
             Assert.IsTrue(people.Any());
         }
 
-        /*        [TestMethod]
-                public void SampleDataPeople_ChecksListToSeeIfAPersonExists()
-                {
-                    SampleData sampleData = new SampleData();
-                    SampleData sampleData1 = new SampleData();
+        [TestMethod]
+        public void SampleDataPeople_ChecksListToSeeIfAPersonExists()
+        {
+            SampleData sampleData = new SampleData();
 
-                    var sampleList = sampleData.CsvRows;
-                    var sampleList1 = sampleData1.People;
+            var sampleList = sampleData.People;
 
-        *//*            IAddress address = new Address("7884 Corry Way","Helena","MT","70577");
-                    IPerson person = new Person("Priscilla","Jenyns",address,"pjenyns0@state.gov");*//*
+            var listOfPerson = sampleList
+                .Select(name => name.FirstName)
+                .Where(name => name == "Priscilla")
+                .ToList();
 
-                    //Assert.IsTrue(Enumerable.Contains(sampleList1.));
-                }*/
+            Assert.IsTrue(listOfPerson.Count > 0);
+        }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -150,7 +149,7 @@ namespace Assignment8.Tests
         public void SampleData_GetAggregateListOfStatesGivenPeople_PassedInNull_Fail()
         {
             SampleData sampleData = new SampleData();
-            string sampleString = sampleData.GetAggregateListOfStatesGivenPeopleCollection(null!);
+            _ = sampleData.GetAggregateListOfStatesGivenPeopleCollection(null!);
         }
 
         [TestMethod]

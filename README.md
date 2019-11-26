@@ -22,12 +22,12 @@ Read through Chapters 15 & 17 (16 is optional)
 - Using LINQ, skip the first row in the `People.csv`.
 - Be sure to appropriately handle resource (`IDisposable`) items correctly if applicable (and it may not be depending on how you implement it).
 
-[?] 1. Implement `IEnumerable<string> GetUniqueSortedListOfStatesGivenCsvRows()` to return a **sorted**, **unique** list of states.
+[x] 1. Implement `IEnumerable<string> GetUniqueSortedListOfStatesGivenCsvRows()` to return a **sorted**, **unique** list of states.
 
 - Use `ISampleData.CsvRows` for your data source.
 - Don't forget the list should be unique.
 - Sort the list alphabetically
-[?] Include a test that leverages a hard coded list of Spokane based addresses.
+- Include a test that leverages a hard coded list of Spokane based addresses.
 - Include a test that uses LINQ to verify the data is sorted correctly (do not use a hard coded list).
 
 [x]. Implement `ISampleData.GetAggregateSortedListOfStatesUsingCsvRows()` to return a `string` that contains a **unique**, comma separated list of states.
@@ -42,7 +42,7 @@ Read through Chapters 15 & 17 (16 is optional)
 - Sort the list by State, City, Zip. (Sort the addresses first then select).
 - Be sure that `Person.Address` is also populated.
 - Adding null validation to all the `Person` and `Address` properties is **optional**.
-[?] Consider using `ISampleData.CsvRows` in your test to verify your results.
+- Consider using `ISampleData.CsvRows` in your test to verify your results.
 
 [x]. Implement `ISampleDate.FilterByEmailAddress(Predicate<string> filter)` to return a list of names where the email address matches the `filter`.
 

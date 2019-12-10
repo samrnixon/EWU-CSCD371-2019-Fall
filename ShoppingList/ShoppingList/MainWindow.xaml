@@ -3,10 +3,70 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
         xmlns:local="clr-namespace:ShoppingList"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        mc:Ignorable="d" Topmost="True" 
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
+        Title="MainWindow" Height="400" Width="400">
+    <Window.Resources>
+        <DataTemplate x:Key="ListTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Path=ItemName}" Grid.Column="0"/>
+                <Button Command="{Binding ElementName=ShoppingItems, Path=DataContext.RemoveItemCommand}"
+                        CommandParameter="{Binding}"/>
+            </Grid>
+        </DataTemplate>
 
+        <local:VisibilityConverter x:Key="visibilityConvert"/>
+
+    </Window.Resources>
+    <Grid Background="Aquamarine">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel>
+            <DockPanel Visibility="{Binding SelectedItem, Converter={StaticResource visibilityConvert}}">
+                <TextBlock Text="Edit an Item" Background="Bisque"/>
+                <TextBox Text="{Binding SelectedItem.ItemName, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+        </StackPanel>
+
+        <ListBox x:Name="ShoppingItemsList" ItemsSource="{Binding ShoppingItems}"
+            SelectedItem="{Binding SelectedItem}"
+                 Grid.Column="1" Grid.RowSpan="2" Background="Pink">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:ShoppingListItem}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding ItemName}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Content="Remove Shopping Item"
+            Command="{Binding RemoveItemCommand}"
+            CommandParameter="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+            Grid.Row="2"
+            Background="Bisque" Margin="0,20,0,0"
+            />
+
+        <StackPanel Grid.Column="1" Grid.Row="2">
+            <TextBox Text="{Binding Path=ItemAdd}" Height="20"/>
+            <Button Content="Add a Shopping Item"
+                Command="{Binding AddItemCommand}"
+                    Background="Bisque" Height="40"
+                />
+        </StackPanel>
     </Grid>
 </Window>

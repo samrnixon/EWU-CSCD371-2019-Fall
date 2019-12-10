@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-
+    <NoWarn>AD0001</NoWarn>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
